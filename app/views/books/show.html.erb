@@ -10,5 +10,20 @@
   <%= @book.author %>
 </p>
 
-<%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
+<h3>Current Snippets</h3>
+<%= @book.snippets %>
+
+
+<% if current_user %>
+<h1>New Snippet</h1>
+
+<%= render :partial => 'snippets/form'  %>
+
+<%= link_to 'Back', snippets_path %>
+<% else %>
+<br></br>
+<%= "Please login or sign up to add snippet to this book"%>
+<% end %>
+
+<br></br>
+<b><%= link_to 'Back to Book List', books_path %><b>

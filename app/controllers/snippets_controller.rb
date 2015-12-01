@@ -1,10 +1,12 @@
 class SnippetsController < ApplicationController
   before_action :set_snippet, only: [:show, :edit, :update, :destroy]
 
+
+
   # GET /snippets
   # GET /snippets.json
   def index
-    @snippets = Snippet.all
+    @snippets = @book.snippets
   end
 
   # GET /snippets/1
@@ -14,7 +16,7 @@ class SnippetsController < ApplicationController
 
   # GET /snippets/new
   def new
-    @snippet = Snippet.new
+    @snippet = @book.snippets.new
   end
 
   # GET /snippets/1/edit
@@ -24,7 +26,9 @@ class SnippetsController < ApplicationController
   # POST /snippets
   # POST /snippets.json
   def create
-    @snippet = Snippet.new(snippet_params)
+    @snippet = Snippet.new
+    @snippet.user = current_user
+    @snippet.book_id = (params[:id])
 
     respond_to do |format|
       if @snippet.save
@@ -67,8 +71,12 @@ class SnippetsController < ApplicationController
       @snippet = Snippet.find(params[:id])
     end
 
+  #  def set_book
+  #    @book = Book.find(params[:id])
+  #  end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def snippet_params
-      params.require(:snippet).permit(:snippet)
+      params.require(:snippet).permit(:snippet, :accepted)
     end
 end
